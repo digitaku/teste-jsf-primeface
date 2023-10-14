@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>DevMedia - users</title>
+    </h:head>
+    <h:body>
+        <h1>Cadastro de users</h1>
+        <h:form>
+            <h3>Nome</h3>
+            <!--Campo que receberá o nome do user. Ao sair do campo
+            o valor é salvo no atributo user(nome) da classe usuarioBean-->
+            <p:inputText id="nome" value="#{usuarioBean.user.nome}"/>
+            <h3>E-Mail</h3>
+            <!--Campo que receberá o e-mail do user. Ao sair do campo o
+            valor é salvo no atributo user(email) da classe usuarioBean-->
+            <p:inputText id="mail" value="#{usuarioBean.user.email}"/>
+            <br /><br />
+            <!--Botão Salvar, ao ser acionado ele executa o método que está
+            definido na propriedade actionListener
+            e depois atualiza os componentes listado na propriedade update-->
+            <p:commandButton value="Salvar" id="salvar"
+            actionListener="#{usuarioBean.inserir()}" update="nome, mail, tabela"/>
+            <br /><br />
+
+            <!--Tabela para exibir os dados.
+            Na propriedade value coloca-se o método que retorna a lista de
+            dados a ser exibida.
+            A propriedade var serve para dar um nome ao objeto de
+            iteraração da lista. Este nome é usado nas colunas para buscar os
+            valores dos registros-->
+            <p:dataTable var="user" value="#{usuarioBean.getUsers()}"
+            id="tabela">
+                <!--Coluna Nome-->
+                <p:column headerText="Nome">
+                <!--aqui define-se que será exibido apenas texto nesta célula,
+                com o componente outputText.
+                A propriedade value define o valor a ser exibido, neste caso
+                buscando o nome do user, lembrando que o user descrito aqui é o
+                mesmo da propriedade var acima.-->
+                    <h:outputText value="#{user.nome}"></h:outputText>
+                </p:column>
+
+                <!--Coluna E-Mail-->
+                <p:column headerText="E-Mail">
+                    <h:outputText value="#{user.email}"></h:outputText>
+                </p:column>
+
+                <p:column style="width:100px;text-align: center">
+                <!--Nesta coluna será exibido um botão para excluir o registro.
+                O botão possui uma ação definida pela propriedade actionListener e
+                logo após atualiza os componentes listados na propriedade update-->
+                    <p:commandButton value="Excluir"
+                                     actionListener="#{usuarioBean.deletar(user)}"
+                                     update="tabela"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
